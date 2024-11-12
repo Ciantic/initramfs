@@ -11,11 +11,11 @@ esac
 . /scripts/functions
 
 mount_as_ramfs() {
-    echo "mount_ramfs" >> /scripts/local
+    cat mount_ramfs.sh >> /scripts/local
 }
 
 mount_as_overlay() {
-    echo "mount_overlay" >> /scripts/local
+    cat mount_overlay.sh >> /scripts/local
 }
 
 enter_shell() {
