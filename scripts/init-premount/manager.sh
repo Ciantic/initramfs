@@ -10,17 +10,6 @@ esac
 
 . /scripts/functions
 
-mount_as_ramfs() {
-    cat mount_ramfs.sh >> /scripts/local
-}
-
-mount_as_overlay() {
-    cat mount_overlay.sh >> /scripts/local
-}
-
-enter_shell() {
-    panic "Dropping to shell!"
-}
 
 
 while true; do
@@ -30,28 +19,25 @@ while true; do
     echo "1) Mount /root as ramfs"
     echo "2) Mount /root as overlay"
     echo "3) Drop to a shell"
-    echo "4) Continue booting"
-    echo -n "Choice: "
-    read choice
+    echo "*) Continue booting"
+    echo "Choice (5 second timeout): "
+    choice=$(bash -c "read -t 5 choice; echo \$choice")
 
-    case "${choice}" in
+    case "${choice}" in 
         1)
-            mount_as_ramfs
+            cat /scripts/init-premount/mount_ramfs.sh >> /scripts/local
             break
             ;;
         2)
-            mount_as_overlay
+            cat /scripts/init-premount/mount_overlay.sh >> /scripts/local
             break
             ;;
         3)
-            enter_shell
-            break
-            ;;
-        4)
+            panic "Dropping to shell!"
             break
             ;;
         *)
-            echo "Invalid choice"
+            break
             ;;
     esac
 done
